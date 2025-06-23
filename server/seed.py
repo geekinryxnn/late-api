@@ -1,47 +1,33 @@
-from server.app import app, db
-from server.models import User, Guest, Episode, Appearance
+from app import app, db
+from models.user import User
+from models.guest import Guest
+from models.episode import Episode
+from models.appearance import Appearance
+from werkzeug.security import generate_password_hash
 from datetime import date
 
-def seed_database():
-    with app.app_context():
-        # Clear existing data
-        db.drop_all()
-        db.create_all()
-        
-        # Create test user
-        user = User(username="testuser")
-        user.set_password("testpassword")
-        db.session.add(user)
-        
-        # Create guests
-        guests = [
-            Guest(name="John Doe", occupation="Comedian"),
-            Guest(name="Jane Smith", occupation="Actor"),
-            Guest(name="Bob Johnson", occupation="Musician")
-        ]
-        db.session.add_all(guests)
-        
-        # Create episodes
-        episodes = [
-            Episode(date=date(2023, 1, 1), number=101),
-            Episode(date=date(2023, 1, 8), number=102),
-            Episode(date=date(2023, 1, 15), number=103)
-        ]
-        db.session.add_all(episodes)
-        
-        db.session.commit()
-        
-        # Create appearances
-        appearances = [
-            Appearance(rating=4, guest_id=1, episode_id=1),
-            Appearance(rating=5, guest_id=2, episode_id=1),
-            Appearance(rating=3, guest_id=3, episode_id=2),
-            Appearance(rating=5, guest_id=1, episode_id=3)
-        ]
-        db.session.add_all(appearances)
-        
-        db.session.commit()
-        print("Database seeded successfully!")
+with app.app_context():
+    db.drop_all()
+    db.create_all()
 
-if __name__ == '__main__':
-    seed_database()
+    # Seed Users
+    user1 = User(username='admin', password_hash=generate_password_hash('password'))
+    db.session.add(user1)
+
+    # Seed Guests
+    guest1 = Guest(name='John Doe', occupation='Actor')
+    guest2 = Guest(name='Jane Smith', occupation='Comedian')
+    db.session.add_all([guest1, guest2])
+
+    # Seed Episodes
+    episode1 = Episode(date=date(2025, 6, 1), number=1)
+    episode2 = Episode(date=date(2025, 6, 2), number=2)
+    db.session.add_all([episode1, episode2])
+
+    # Seed Appearances
+    appearance1 = Appearance(rating=4, guest_id=1, episode_id=1)
+    appearance2 = Appearance(rating=5, guest_id=2, episode_id=2)
+    db.session.add_all([appearance1, appearance2])
+
+    db.session.commit()
+    print("Database seeded successfully!")
