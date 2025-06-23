@@ -37,6 +37,3 @@ A REST API for managing a late night TV show system.
 2. Login at `/login` to get a JWT token
 3. Include the token in protected requests: `Authorization: Bearer <token>`
 
-## Postman Collection
-
-Import the provided Postman collection to test all endpoints.
