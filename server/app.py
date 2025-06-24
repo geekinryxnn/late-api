@@ -26,7 +26,7 @@ jwt = JWTManager(app)
 app.register_blueprint(guest_bp, url_prefix='/guests')
 app.register_blueprint(episode_bp, url_prefix='/episodes')
 app.register_blueprint(appearance_bp, url_prefix='/appearances')
-app.register_blueprint(auth_bp)
+app.register_blueprint(auth_bp, url_prefix='/')
 
 if __name__ == '__main__':
     app.run(debug=True)

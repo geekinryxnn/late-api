@@ -10,6 +10,9 @@ class Appearance(db.Model):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.validate_rating()
+
+    def validate_rating(self):
         if not 1 <= self.rating <= 5:
             raise ValueError("Rating must be between 1 and 5")
 

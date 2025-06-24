@@ -1,17 +1,19 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import date
 
 db = SQLAlchemy()
 
-class Guest(db.Model):
+class Episode(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    occupation = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    number = db.Column(db.Integer, nullable=False)
 
-    appearances = db.relationship('Appearance', backref='guest', lazy=True)
+    appearances = db.relationship('Appearance', backref='episode', lazy=True, cascade='all, delete-orphan')
 
     def to_dict(self):
         return {
             'id': self.id,
-            'name': self.name,
-            'occupation': self.occupation
+            'date': self.date.isoformat(),
+            'number': self.number,
+            'appearances': [appearance.to_dict() for appearance in self.appearances]
         }

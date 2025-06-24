@@ -1,4 +1,4 @@
-from app import app, db
+from server.app import app, db
 from models.user import User
 from models.guest import Guest
 from models.episode import Episode
