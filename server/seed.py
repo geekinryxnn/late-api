@@ -11,7 +11,7 @@ with app.app_context():
     db.create_all()
 
     # Seed Users
-    user1 = User(username='admin', password_hash=generate_password_hash('password'))
+    user1 = User(username='admin', password_hash=generate_password_hash('password123'))
     db.session.add(user1)
 
     # Seed Guests
